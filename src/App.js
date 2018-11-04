@@ -45,17 +45,18 @@ class App extends Component {
     axios
       .get("/games")
       .then(({ data }) => {
-        console.log(data);
         if (data.length === 0) {
           this.setState({ loading: false });
+          return;
         }
         data.sort(
           (lastGame, nextGame) =>
             lastGame.currentPeriod - nextGame.currentPeriod
         );
         let games = data.map(game => {
-          return [game._id, `${game.currentPeriod} Inning`];
+          return { _id: game._id, text: `${game.currentPeriod} Inning` };
         });
+
         this.setState({
           gamesToSelect: games,
           cachedGames: data,
@@ -82,7 +83,7 @@ class App extends Component {
           game={this.state.game}
           minPeriods={9}
           maxPeriods={12}
-          hasGame={this.state.gamesToSelect.length !== 0}
+          hasGame={this.state.gamesToSelect.length > 0}
           loading={this.state.loading}
         />
       </>

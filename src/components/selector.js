@@ -16,8 +16,8 @@ class Selector extends Component {
   render() {
     const gameFeeds = this.props.games.map(game => {
       return (
-        <option key={game[0]} value={game[0]}>
-          {game[1]}
+        <option key={game._id} value={game._id}>
+          {game.text}
         </option>
       );
     });

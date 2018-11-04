@@ -134,6 +134,24 @@ body {
   color: #fc0910;
 }
 
+.boxscore__details__info small {
+  display: block;
+}
+@media (min-width: 37.5rem) {
+  .boxscore__details__info small {
+    display: none;
+  }
+}
+
+.boxscore__details__info > strong {
+  display: none;
+}
+@media (min-width: 37.5rem) {
+  .boxscore__details__info > strong {
+    display: block;
+  }
+}
+
 .selector__period {
   width: 140px;
   margin: 40px auto;

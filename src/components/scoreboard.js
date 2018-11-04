@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import GameClock from "./gameclock";
+import BaseballGameClock from "./baseball-gameclock";
 import TeamCard from "./team-card";
 
 const ScoreBoard = function(props) {
@@ -11,7 +11,7 @@ const ScoreBoard = function(props) {
         <div>Loading</div>
       </div>
     );
-  } else if (props.hasGames) {
+  } else if (!props.hasGame) {
     return (
       <div className="boxscore">
         <div>No Games Found</div>
@@ -96,7 +96,7 @@ const ScoreBoard = function(props) {
             name={props.game.awayTeam.name}
             abbr={props.game.awayTeam.abbr}
           />
-          <GameClock
+          <BaseballGameClock
             gameStatus={props.game.status}
             period={props.game.currentPeriod}
             periodHalf={props.game.currentPeriodHalf}

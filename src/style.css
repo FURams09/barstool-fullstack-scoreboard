@@ -158,6 +158,5 @@ body {
 }
 
 .selector__period select {
-  color: blue;
-  min-width: 100px;
+  width: 100px;
 }

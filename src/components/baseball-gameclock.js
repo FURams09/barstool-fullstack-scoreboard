@@ -35,16 +35,30 @@ const BaseballGameClock = props => {
       );
       break;
     case "INPROGRESS":
+      let inningState = '';
+      let smallInningState = '';
+      if (props.inningOver) {
+        inningState = 'End';
+        smallInningState = 'End'
+      } else {
+        if (props.periodHalf === 'B') {
+          inningState = 'Bottom';
+          smallInningState = 'Btm';
+        } else {
+          inningState = 'Top';
+          smallInningState = 'Top';
+        }
+      }
       render = (
         <>
           <strong>
-            {props.periodHalf === "B" ? "Bottom" : "Top"}
+            {inningState}
             <br />
             {props.period}
           </strong>
           <small>
             <strong>
-              {props.periodHalf === "B" ? "Btm" : "Top"}
+              {smallInningState}
               <br />
               {props.period}
             </strong>

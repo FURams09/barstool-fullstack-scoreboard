@@ -14,7 +14,7 @@ class Selector extends Component {
     this.props.changeInning(e.target.value);
   }
   render() {
-    const gameFeeds = this.props.games.map(game => {
+    const selectableGames = this.props.games.map(game => {
       return (
         <option key={game._id} value={game._id}>
           {game.text}
@@ -26,7 +26,7 @@ class Selector extends Component {
         onChange={this.changePeriod.bind(this)}
         defaultValue={this.state.selectedValue}
       >
-        {gameFeeds}
+        {selectableGames}
       </select>
     );
   }

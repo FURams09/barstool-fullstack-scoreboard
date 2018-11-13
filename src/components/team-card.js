@@ -13,7 +13,7 @@ const GameCard = props => {
         <strong>{props.name}</strong>
         <small>{props.abbr}</small>
       </p>
-      <span>56-38</span>
+      <span>{props.record}</span>
     </div>
   );
 };
@@ -22,7 +22,8 @@ GameCard.prototype = {
   teamColor: PropTypes.string,
   textColor: PropTypes.string,
   name: PropTypes.string,
-  abbr: PropTypes.abbr
+  abbr: PropTypes.abbr,
+  record: PropTypes.string,
 };
 
 export default GameCard;

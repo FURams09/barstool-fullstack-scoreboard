@@ -14,10 +14,11 @@ const Inning = (props) => {
 /**
  * There would be a similar routine for other sports returning the array of 
  * sports specific Periods (simple HTML spans for the headers and the inning component)
- * @param {array} game game's array of periods
+ * @param {array} game game's array of innings
  * @returns {array} [innings header, away team's Innings, home team's Innings ]
  */
 const getBaseballInnings = (game) => {
+  // set the minimum and maximum number of innings to display at once
   const minPeriods = 9;
   const maxPeriods = 12;
 
@@ -30,11 +31,14 @@ const getBaseballInnings = (game) => {
   let homePeriods = [];
   let awayPeriods = [];
   
+  // create inning components for every inning or 
+  // put an empty placeholder span for padding
   for (let i = firstPeriod; i < lastPeriod; i++) {
     let period = game.periods[i];
   
-    if (period) {
+    if (period) { 
       let [awayPeriod, homePeriod] = period;
+      // refactor out inning creation
       if (awayPeriod){
         awayPeriods[i] = (
           <Inning
@@ -69,7 +73,8 @@ const getBaseballInnings = (game) => {
 }
 
 /**
- * 
+ * Takes a baseball game object and loops through the final game totals and creates
+ * the necessary component to display for them.
  * @param {array} game 
  * @returns {array} [final headers, away teams final counts, home team's final counts ]
  */

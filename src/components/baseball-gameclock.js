@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import GameClock from "./gameclock";
+import React from "react"
+import PropTypes from "prop-types"
+import GameClock from "./gameclock"
 
 const BaseballGameClock = props => {
-  let render = <div />;
+  let render = <div />
   switch (props.gameStatus) {
-    case "CLOSED":
+    case `CLOSED`:
       render = (
         <>
           <strong className="boxscore__details__final">
@@ -32,21 +32,21 @@ const BaseballGameClock = props => {
             </strong>
           </small>
         </>
-      );
-      break;
-    case "INPROGRESS":
-      let inningState = '';
-      let smallInningState = '';
+      )
+      break
+    case `INPROGRESS`:
+      let inningState = ``
+      let smallInningState = ``
       if (props.inningOver) {
-        inningState = 'End';
-        smallInningState = 'End'
+        inningState = `End`
+        smallInningState = `End`
       } else {
-        if (props.periodHalf === 'B') {
-          inningState = 'Bottom';
-          smallInningState = 'Btm';
+        if (props.inningHalf === `B`) {
+          inningState = `Bottom`
+          smallInningState = `Btm`
         } else {
-          inningState = 'Top';
-          smallInningState = 'Top';
+          inningState = `Top`
+          smallInningState = `Top`
         }
       }
       render = (
@@ -64,17 +64,18 @@ const BaseballGameClock = props => {
             </strong>
           </small>
         </>
-      );
-      break;
+      )
+      break
     default:
   }
 
-  BaseballGameClock.proptypes = {
+  BaseballGameClock.propTypes = {
     gameStatus: PropTypes.string,
     inning: PropTypes.string,
-    inningHalf: PropTypes.string
-  };
-  return <GameClock render={render} />;
-};
+    inningHalf: PropTypes.string,
+    inningOver: PropTypes.bool
+  }
+  return <GameClock render={render} />
+}
 
-export default BaseballGameClock;
+export default BaseballGameClock

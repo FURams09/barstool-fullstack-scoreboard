@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 const GameCard = props => {
   return (
     <div
@@ -15,15 +15,15 @@ const GameCard = props => {
       </p>
       <span>{props.record}</span>
     </div>
-  );
-};
+  )
+}
 
-GameCard.prototype = {
+GameCard.propTypes = {
   teamColor: PropTypes.string,
   textColor: PropTypes.string,
   name: PropTypes.string,
-  abbr: PropTypes.abbr,
-  record: PropTypes.string,
-};
+  abbr: PropTypes.string,
+  record: PropTypes.string
+}
 
-export default GameCard;
+export default GameCard

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import axios from "axios";
-import Selector from "./selector";
 import ScoreBoard from "./scoreboard";
 import BaseballGameClock from "./baseball-gameclock";
 
@@ -97,112 +97,70 @@ class BaseballScoreboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gamesToSelect: [],
-      cachedGames: [],
-      selectedGame: "",
-      loading: true
+      game: {},
+      load: false,
     };
   }
-  changeInning(_id) {
-    this.updateGame(_id);
-    let cachedGame = this.state.cachedGames.filter(game => {
-      return game._id === _id;
-    });
-    if (cachedGame.length > 0) {
-      this.setState({ game: cachedGame[0], selectedGame: _id });
-    } else {
-      this.setState({ loading: true });
-    }
-  }
 
-  updateGame(_id) {
-    axios.get(`games/${_id}`).then(res => {
-      if (res.data.error) {
-        console.log(res.data.error);
-      } else {
-        let cachedGames = this.state.cachedGames.map(game => {
-          if (game._id === _id) {
-            return res.data;
-          } else {
-            return game;
-          }
-        });
-        this.setState({ selectedGame: _id, game: res.data, cachedGames });
-      }
-    });
-  }
-  componentDidMount() {
-    axios
-      .get("/games")
-      .then(({ data }) => {
-        if (data.length === 0) {
-          this.setState({ loading: false });
-          return;
+  updateGame = () => {
+      axios.get(`games/${this.props.selectedGame}`).then(res => {
+        if (res.data.error) {
+          console.log(res.data.error);
+        } else {
+          this.setState({ game: res.data});
         }
-        // order the games by what inning they're in.
-        data.sort(
-          (lastGame, nextGame) =>
-            lastGame.currentPeriod - nextGame.currentPeriod
-        );
-        let games = data.map(game => {
-          return { _id: game._id, text: `${game.currentPeriod} Inning` };
-        });
-
-        this.setState({
-          gamesToSelect: games,
-          cachedGames: data,
-          game: data[0],
-          selectedGame: games[0]._id || "",
-          loading: false
-        });
-      })
-      .catch(ex => {
-        console.log(ex);
-        this.setState({ loading: false });
+        this.setState({load: false })
       });
   }
- 
-  render() {
-    if (this.state.loading) {
-      return (
-        <div className="boxscore">
-          <div>Loading</div>
-        </div>
-      );
-    } else if (this.state.gamesToSelect.length === 0) {
-      return (
-        <div className="boxscore">
-          <div>No Games Found</div>
-        </div>
-      );
-    } else {
-    const clock = <BaseballGameClock
-      gameStatus={this.state.game.status}
-      inning={this.state.game.currentPeriod}
-      inningHalf={this.state.game.currentPeriodHalf}
-    />
 
-    const game = getBaseballInnings(this.state.game);
-    const final = getBaseballFinal(this.state.game);
+  componentDidUpdate() {
+    if (this.state.load) {
+      this.updateGame()
+    } else if (this.props.selectedGame !== '' && this.props.selectedGame !== this.state.game._id) {
+      this.setState({load: true})
+    }
+  }
+  
+  render() {
+    let clock = <div />
+    let game = [];
+    let final = [];
+    let homeTeam = {};
+    let awayTeam = {};
+    let noGames = true;
+    if (this.state.game.hasOwnProperty(`_id`)) {
+      clock = <BaseballGameClock
+        gameStatus={this.state.game.status}
+        inning={this.state.game.currentPeriod}
+        inningHalf={this.state.game.currentPeriodHalf}
+      />
+      game = getBaseballInnings(this.state.game);
+      final = getBaseballFinal(this.state.game);
+      homeTeam = this.state.game.homeTeam
+      awayTeam = this.state.game.awayTeam
+
+      noGames = false;
+    }
+
     return (
       <>
-        <div className="selector__period">
-          <Selector
-            games={this.state.gamesToSelect}
-            changeInning={this.changeInning.bind(this)}
-          />
-        </div>
         <ScoreBoard
-          homeTeam={this.state.game.homeTeam}
-          awayTeam={this.state.game.awayTeam}
+          loading={this.state.load}
+          noGames={noGames}
+          homeTeam={homeTeam}
+          awayTeam={awayTeam}
           periods={game} 
           final={final}
           gameClock = {clock}
         />
       </>
     );
-  }}
+  }
 
+}
+
+BaseballScoreboard.propTypes = {
+  selectedGame: PropTypes.string
 }
 
 export default BaseballScoreboard;

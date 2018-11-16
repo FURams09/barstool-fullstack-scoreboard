@@ -1,6 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./style.css";
-import BaseballScoreboard from "./components/baseball-scoreboard";
+import React from "react"
+import ReactDOM from "react-dom"
+import "./style.css"
+import App from "./App"
 
-ReactDOM.render(<BaseballScoreboard />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById(`root`))

@@ -1,11 +1,24 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
-import TeamCard from "./team-card";
+import TeamCard from "./team-card"
 
-const ScoreBoard = function(props) {
-    const [headerRow, awayPeriods, homePeriods] = props.periods;
-    const [finalHeaderRow, awayFinal, homeFinal] = props.final;
+const ScoreBoard = function (props) {
+  if (props.loading) {
+    return (
+      <div className="boxscore">
+        <div>Loading</div>
+      </div>
+    )
+  } else if (props.noGames) {
+    return (
+      <div className="boxscore">
+        <div>No Games Found</div>
+      </div>
+    )
+  } else {
+    const [headerRow, awayPeriods, homePeriods] = props.periods
+    const [finalHeaderRow, awayFinal, homeFinal] = props.final
     return (
       <div className="boxscore">
         <div className="boxscore__team boxscore__team--header">
@@ -41,15 +54,17 @@ const ScoreBoard = function(props) {
           />
         </div>
       </div>
-    );
-  
-};
+    )
+  }
+}
 
 ScoreBoard.propTypes = {
+  loading: PropTypes.bool,
+  noGames: PropTypes.bool,
   homeTeam: PropTypes.any,
   awayTeam: PropTypes.any,
   periods: PropTypes.array,
   final: PropTypes.array
-};
+}
 
-export default ScoreBoard;
+export default ScoreBoard

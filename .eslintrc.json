@@ -1,0 +1,13 @@
+{
+  "extends": ["standard",
+    "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "no-extra-semi": "off",
+    "quotes": ["error", "backtick"]
+  }
+}

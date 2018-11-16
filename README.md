@@ -9,7 +9,7 @@ To get started you will just need to run
     ```yarn install
      yarn start```
 
-I started this project using [create-react-app](https://github.com/facebook/create-react-app). I wanted to 
+
 
 [Link to Backend API server](https://github.com/FURams09/barstool-fullstack-server)
 

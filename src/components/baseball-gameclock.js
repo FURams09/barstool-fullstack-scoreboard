@@ -10,10 +10,10 @@ const BaseballGameClock = props => {
         <>
           <strong className="boxscore__details__final">
             Final
-            {props.period > 9 ? (
+            {props.inning > 9 ? (
               <>
                 <br />
-                {props.period}
+                {props.inning}
               </>
             ) : (
               ``
@@ -22,9 +22,9 @@ const BaseballGameClock = props => {
           <small className="boxscore__details__final">
             <strong>
               F
-              {props.period > 9 ? (
+              {props.inning > 9 ? (
                 <>
-                  <br />({props.period})
+                  <br />({props.inning})
                 </>
               ) : (
                 ``
@@ -54,13 +54,13 @@ const BaseballGameClock = props => {
           <strong>
             {inningState}
             <br />
-            {props.period}
+            {props.inning}
           </strong>
           <small>
             <strong>
               {smallInningState}
               <br />
-              {props.period}
+              {props.inning}
             </strong>
           </small>
         </>
@@ -71,8 +71,8 @@ const BaseballGameClock = props => {
 
   BaseballGameClock.proptypes = {
     gameStatus: PropTypes.string,
-    period: PropTypes.string,
-    periodHalf: PropTypes.string
+    inning: PropTypes.string,
+    inningHalf: PropTypes.string
   };
   return <GameClock render={render} />;
 };

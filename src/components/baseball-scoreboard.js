@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Selector from "./components/selector";
-import ScoreBoard from "./components/scoreboard";
-import BaseballGameClock from "./components/baseball-gameclock";
+import Selector from "./selector";
+import ScoreBoard from "./scoreboard";
+import BaseballGameClock from "./baseball-gameclock";
 
 const Inning = (props) => {
   return  <span
@@ -19,57 +19,57 @@ const Inning = (props) => {
  */
 const getBaseballInnings = (game) => {
   // set the minimum and maximum number of innings to display at once
-  const minPeriods = 9;
-  const maxPeriods = 12;
+  const minInnings = 9;
+  const maxInnings = 12;
 
-  let noOfPeriods = game.periods.length;
+  let noOfInnings = game.periods.length;
   
-  let firstPeriod = noOfPeriods > maxPeriods ? noOfPeriods - maxPeriods : 0;
-  let lastPeriod = noOfPeriods < minPeriods ? minPeriods : noOfPeriods;
+  let firstInning = noOfInnings > maxInnings ? noOfInnings - maxInnings : 0;
+  let lastInning = noOfInnings < minInnings ? minInnings : noOfInnings;
   
-  let periods = [];
-  let homePeriods = [];
-  let awayPeriods = [];
+  let innings = [];
+  let homeInnings = [];
+  let awayInnings = [];
   
   // create inning components for every inning or 
   // put an empty placeholder span for padding
-  for (let i = firstPeriod; i < lastPeriod; i++) {
-    let period = game.periods[i];
+  for (let i = firstInning; i < lastInning; i++) {
+    let inning = game.periods[i];
   
-    if (period) { 
-      let [awayPeriod, homePeriod] = period;
+    if (inning) { 
+      let [awayInning, homeInning] = inning;
       // refactor out inning creation
-      if (awayPeriod){
-        awayPeriods[i] = (
+      if (awayInning){
+        awayInnings[i] = (
           <Inning
             key={i}
-            hoverText={`Hits: ${awayPeriod.hits} \nErrors: ${awayPeriod.errs}`}
-            displayText={awayPeriod.runs}
+            hoverText={`Hits: ${awayInning.hits} \nErrors: ${awayInning.errs}`}
+            displayText={awayInning.runs}
           />
           
         )} else {
-          awayPeriods.push(<span key={`away_${i}`} />);
+          awayInnings.push(<span key={`away_${i}`} />);
         };
-      if (homePeriod) {
-        homePeriods[i] = (
+      if (homeInning) {
+        homeInnings[i] = (
           <Inning 
           key={i}
-          hoverText={`Hits: ${awayPeriod.hits} \nErrors: ${awayPeriod.errs}`}
-          displayText={awayPeriod.runs}
+          hoverText={`Hits: ${awayInning.hits} \nErrors: ${awayInning.errs}`}
+          displayText={awayInning.runs}
         />
         );
       } else {
-        homePeriods.push(<span key={`home_${i}`} />);
+        homeInnings.push(<span key={`home_${i}`} />);
       }
         
     } else {
-      awayPeriods.push(<span key={`away_${i}`} />);
-      homePeriods.push(<span key={`home_${i}`} />);
+      awayInnings.push(<span key={`away_${i}`} />);
+      homeInnings.push(<span key={`home_${i}`} />);
     }
   
-    periods.push(<span key={i}>{i + 1}</span>);
+    innings.push(<span key={i}>{i + 1}</span>);
   }
-  return [periods, awayPeriods, homePeriods]
+  return [innings, awayInnings, homeInnings]
 }
 
 /**
@@ -139,6 +139,7 @@ class BaseballScoreboard extends Component {
           this.setState({ loading: false });
           return;
         }
+        // order the games by what inning they're in.
         data.sort(
           (lastGame, nextGame) =>
             lastGame.currentPeriod - nextGame.currentPeriod
@@ -177,8 +178,8 @@ class BaseballScoreboard extends Component {
     } else {
     const clock = <BaseballGameClock
       gameStatus={this.state.game.status}
-      period={this.state.game.currentPeriod}
-      periodHalf={this.state.game.currentPeriodHalf}
+      inning={this.state.game.currentPeriod}
+      inningHalf={this.state.game.currentPeriodHalf}
     />
 
     const game = getBaseballInnings(this.state.game);

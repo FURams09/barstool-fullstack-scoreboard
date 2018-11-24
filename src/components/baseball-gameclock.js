@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import GameClock from "./gameclock"
 
 const BaseballGameClock = props => {
-  let render = <div />
+  let render
   switch (props.gameStatus) {
     case `CLOSED`:
       render = (
@@ -67,15 +67,16 @@ const BaseballGameClock = props => {
       )
       break
     default:
-  }
-
-  BaseballGameClock.propTypes = {
-    gameStatus: PropTypes.string,
-    inning: PropTypes.string,
-    inningHalf: PropTypes.string,
-    inningOver: PropTypes.bool
+      return <div />
   }
   return <GameClock render={render} />
+}
+
+BaseballGameClock.propTypes = {
+  gameStatus: PropTypes.string,
+  inning: PropTypes.string,
+  inningHalf: PropTypes.string,
+  inningOver: PropTypes.bool
 }
 
 export default BaseballGameClock
